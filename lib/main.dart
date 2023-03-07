@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:story_app/screen/register_screen.dart';
+import 'package:story_app/ui/screen/register_screen.dart';
 
 void main() {
   runApp(const MyApp());
