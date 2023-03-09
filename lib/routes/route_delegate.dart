@@ -92,25 +92,22 @@ class MyRouteDelegate extends RouterDelegate
           ),
       ];
 
-      List<Page>  _loggedInStack => [
-                MaterialPage(
+  List<Page> get _loggedInStack => [
+        MaterialPage(
             key: const ValueKey("StoryListScreen"),
             child: StoryListScreen(
-              
+              onTapped: (String storyId) {
+                selectedStory = storyId;
+                notifyListeners();
+              },
+              onLogout: () {
+                isLoggedIn = false;
+                notifyListeners();
+              },
+              toFormScreen: () {
+                isForm = true;
+                notifyListeners();
+              },
             )),
-                   if (selectedStory != null)
-          MaterialPage(
-            key: ValueKey(selectedStory),
-            child: DetailStoryScreen(
-             
-            ),
-          ),
-        if (isForm)
-          MaterialPage(
-            key: const ValueKey("FormScreen"),
-            child: CreateStoryScreen(
-              
-            ),
-          ),
       ];
 }
