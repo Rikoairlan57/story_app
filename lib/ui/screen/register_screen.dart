@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:story_app/provider/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+  final Function() onRegister;
+  final Function() onLogin;
+  const RegisterScreen({
+    super.key,
+    required this.onLogin,
+    required this.onRegister,
+  });
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -12,6 +20,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final passwordController = TextEditingController();
   final nameController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    nameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +48,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: nameController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "Please enter your name!";
+                      return 'Please enter your name.';
                     }
                     return null;
                   },
@@ -40,14 +56,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     hintText: "Name",
                   ),
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
+                const SizedBox(height: 8),
                 TextFormField(
                   controller: emailController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "Please enter your email!";
+                      return 'Please enter your email.';
                     }
                     return null;
                   },
@@ -55,34 +69,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     hintText: "Email",
                   ),
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
+                const SizedBox(height: 8),
                 TextFormField(
                   controller: passwordController,
                   obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Please enter your password!";
-                    }
-                    return null;
-                  },
                   decoration: const InputDecoration(
                     hintText: "Password",
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password.';
+                    }
+                    return null;
+                  },
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
-                ElevatedButton(
-                  onPressed: () async {},
-                  child: const Text("REGISTER"),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+                const SizedBox(height: 8),
+                context.watch<AuthProvider>().isLoadingRegister
+                    ? const Center(child: CircularProgressIndicator())
+                    : ElevatedButton(
+                        onPressed: () async {
+                          if (formKey.currentState!.validate()) {
+                            var name = nameController.text;
+                            var email = emailController.text;
+                            var password = passwordController.text;
+                            await _onRegister(name, email, password);
+                            widget.onRegister();
+                          }
+                        },
+                        child: const Text("REGISTER"),
+                      ),
+                const SizedBox(height: 8),
                 OutlinedButton(
-                  onPressed: () => {},
+                  onPressed: () => widget.onLogin(),
                   child: const Text("LOGIN"),
                 ),
               ],
@@ -91,5 +109,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
+  }
+
+  _onRegister(String name, String email, String password) async {
+    final ScaffoldMessengerState scaffoldMessengerState =
+        ScaffoldMessenger.of(context);
+    final authProvider = context.read<AuthProvider>();
+    await authProvider.register(name, email, password);
+    if (authProvider.common != null) {
+      widget.onRegister();
+    }
+    scaffoldMessengerState
+        .showSnackBar(SnackBar(content: Text(authProvider.message)));
   }
 }
