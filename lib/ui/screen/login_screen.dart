@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:story_app/provider/auth_provider.dart';
 
 class LoginScreen extends StatefulWidget {
+  final Function() onLogin;
+  final Function() onRegister;
   const LoginScreen({
     super.key,
+    required this.onLogin,
+    required this.onRegister,
   });
 
   @override
@@ -12,7 +18,14 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final fromKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 300),
           child: Form(
-            key: fromKey,
+            key: formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -62,10 +75,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 8,
                 ),
-                ElevatedButton(
-                  onPressed: () async {},
-                  child: const Text("LOGIN"),
-                ),
+                context.watch<AuthProvider>().isLoadingLogin
+                    ? const Center(child: CircularProgressIndicator())
+                    : ElevatedButton(
+                        onPressed: () async {
+                          if (formKey.currentState!.validate()) {
+                            var email = emailController.text;
+                            var password = passwordController.text;
+                            _onLogin(email, password);
+                          }
+                        },
+                        child: const Text("LOGIN"),
+                      ),
                 const SizedBox(
                   height: 8,
                 ),
@@ -77,6 +98,21 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  _onLogin(String email, String password) async {
+    final ScaffoldMessengerState scaffoldMessengerState =
+        ScaffoldMessenger.of(context);
+    final authProvider = context.read<AuthProvider>();
+    await authProvider.login(email, password);
+    if (authProvider.loginResponse != null) {
+      widget.onLogin();
+    }
+    scaffoldMessengerState.showSnackBar(
+      SnackBar(
+        content: Text(authProvider.message),
       ),
     );
   }
