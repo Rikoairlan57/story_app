@@ -116,7 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ScaffoldMessenger.of(context);
     final authProvider = context.read<AuthProvider>();
     await authProvider.register(name, email, password);
-    if (authProvider.common != null) {
+    if (authProvider.commonResponse != null) {
       widget.onRegister();
     }
     scaffoldMessengerState

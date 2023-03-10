@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:story_app/data/api/api_service.dart';
 import 'package:story_app/data/db/auth_repository.dart';
-import 'package:story_app/data/response/common.dart';
+import 'package:story_app/data/response/common_response.dart';
 import 'package:story_app/data/response/login_response.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -16,7 +16,7 @@ class AuthProvider extends ChangeNotifier {
   bool isLoggedIn = false;
 
   String message = "";
-  Common? common;
+  CommonResponse? commonResponse;
   LoginResponse? loginResponse;
 
   Future<void> login(String email, String password) async {
@@ -26,7 +26,7 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
 
       loginResponse = await apiService.login(email, password);
-      message = loginResponse?.message ?? "success";
+      message = loginResponse?.message ?? 'success';
       await authRepository.saveUser(loginResponse!.loginResult);
       await authRepository.login();
       isLoadingLogin = false;
@@ -41,7 +41,7 @@ class AuthProvider extends ChangeNotifier {
   Future<bool> logout() async {
     isLoadingLogout = true;
     notifyListeners();
-    final logout = await authRepository.login();
+    final logout = await authRepository.logout();
     if (logout) {
       await authRepository.deleteUser();
     }
@@ -54,12 +54,12 @@ class AuthProvider extends ChangeNotifier {
   Future<void> register(String name, String email, String password) async {
     try {
       message = "";
-      common = null;
+      commonResponse = null;
       isLoadingRegister = true;
       notifyListeners();
 
-      common = await apiService.register(name, email, password);
-      message = common?.message ?? "success";
+      commonResponse = await apiService.register(name, email, password);
+      message = commonResponse?.message ?? 'success';
       isLoadingRegister = false;
       notifyListeners();
     } catch (e) {

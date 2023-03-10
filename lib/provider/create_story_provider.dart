@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 import 'package:story_app/data/api/api_service.dart';
-import 'package:story_app/data/response/common.dart';
+import 'package:story_app/data/response/common_response.dart';
 
 class CreateStoryProvider extends ChangeNotifier {
   final ApiService apiService;
@@ -12,7 +12,7 @@ class CreateStoryProvider extends ChangeNotifier {
   XFile? imageFile;
   bool isUploading = false;
   String message = '';
-  Common? common;
+  CommonResponse? commonResponse;
 
   CreateStoryProvider(this.apiService);
 
@@ -36,11 +36,12 @@ class CreateStoryProvider extends ChangeNotifier {
       List<int> bytes, String fileName, String description) async {
     try {
       message = "";
-      common = null;
+      commonResponse = null;
       isUploading = true;
       notifyListeners();
-      common = await apiService.storeStory(bytes, fileName, description);
-      message = common?.message ?? "success";
+      commonResponse =
+          await apiService.storeStory(bytes, fileName, description);
+      message = commonResponse?.message ?? "success";
       isUploading = false;
       notifyListeners();
     } catch (e) {

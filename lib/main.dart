@@ -29,6 +29,8 @@ class _MyAppState extends State<MyApp> {
     super.initState();
 
     authProvider = AuthProvider(authRepository, ApiService());
+
+    myRouteDelegate = MyRouteDelegate(authRepository);
   }
 
   @override
