@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:story_app/data/db/auth_repository.dart';
-import 'package:story_app/data/response/common.dart';
+import 'package:story_app/data/response/common_response.dart';
 import 'package:story_app/data/response/login_response.dart';
 import 'package:story_app/data/response/story_detail.dart';
 import 'package:story_app/data/response/story_list.dart';
@@ -14,7 +14,8 @@ class ApiService {
 
   final AuthRepository authRepository = AuthRepository();
 
-  Future<Common> register(String name, String email, String password) async {
+  Future<CommonResponse> register(
+      String name, String email, String password) async {
     final endPointUri = Uri.parse("$_baseUrl/register");
     final Map<String, String> fields = {
       "name": name,
@@ -25,10 +26,10 @@ class ApiService {
     final response = await http.post(endPointUri, body: fields);
 
     if (response.statusCode == 200) {
-      final Common common = Common.fromJson(response.body);
+      final CommonResponse common = CommonResponse.fromJson(response.body);
       return common;
     } else {
-      final Common common = Common.fromJson(response.body);
+      final CommonResponse common = CommonResponse.fromJson(response.body);
       throw Exception(common.message);
     }
   }
@@ -80,7 +81,7 @@ class ApiService {
     }
   }
 
-  Future<Common> storeStory(
+  Future<CommonResponse> storeStory(
       List<int> bytes, String fileName, String description) async {
     final endPointUri = Uri.parse('$_baseUrl/stories');
     final user = await authRepository.getUser();
@@ -108,7 +109,7 @@ class ApiService {
     final String responseData = String.fromCharCodes(responseList);
 
     if (statusCode == 201) {
-      final Common commonResponse = Common.fromJson(
+      final CommonResponse commonResponse = CommonResponse.fromJson(
         responseData,
       );
       return commonResponse;

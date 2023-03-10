@@ -5,11 +5,12 @@ import 'package:story_app/provider/auth_provider.dart';
 class LoginScreen extends StatefulWidget {
   final Function() onLogin;
   final Function() onRegister;
+
   const LoginScreen({
-    super.key,
+    Key? key,
     required this.onLogin,
     required this.onRegister,
-  });
+  }) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -46,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: emailController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your email!';
+                      return 'Please enter your email.';
                     }
                     return null;
                   },
@@ -54,9 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: "Email",
                   ),
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
+                const SizedBox(height: 8),
                 TextFormField(
                   controller: passwordController,
                   obscureText: true,
@@ -65,16 +64,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "Please enter your password!";
+                      return 'Please enter your password.';
                     } else if (value.length < 6) {
-                      return "Password min 6 character!";
+                      return 'Password min 6 character.';
                     }
                     return null;
                   },
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
+                const SizedBox(height: 8),
                 context.watch<AuthProvider>().isLoadingLogin
                     ? const Center(child: CircularProgressIndicator())
                     : ElevatedButton(
@@ -87,11 +84,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: const Text("LOGIN"),
                       ),
-                const SizedBox(
-                  height: 8,
-                ),
+                const SizedBox(height: 8),
                 OutlinedButton(
-                  onPressed: () => {},
+                  onPressed: () => widget.onRegister(),
                   child: const Text("REGISTER"),
                 ),
               ],

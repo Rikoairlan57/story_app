@@ -109,5 +109,22 @@ class MyRouteDelegate extends RouterDelegate
                 notifyListeners();
               },
             )),
+        if (selectedStory != null)
+          MaterialPage(
+            key: ValueKey(selectedStory),
+            child: DetailStoryScreen(
+              storyId: selectedStory!,
+            ),
+          ),
+        if (isForm)
+          MaterialPage(
+            key: const ValueKey("FormScreen"),
+            child: CreateStoryScreen(
+              onSend: () {
+                isForm = false;
+                notifyListeners();
+              },
+            ),
+          ),
       ];
 }
