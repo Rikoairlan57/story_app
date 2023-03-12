@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:story_app/data/common/enum/result_state.dart';
@@ -56,7 +57,6 @@ class StoryDetailScreen extends StatelessWidget {
                                         if (loadingProgress != null) {
                                           return const CircularProgressIndicator();
                                         }
-
                                         return child;
                                       },
                                       errorBuilder:
@@ -87,8 +87,17 @@ class StoryDetailScreen extends StatelessWidget {
                           ],
                         ),
                         title: Text(value.state == ResultState.hasData
-                            ? value.listStory.name
-                            : ""),
+                                ? value.listStory.name
+                                : "")
+                            .animate()
+                            .fade(
+                              duration: 850.ms,
+                            )
+                            .slideY(
+                              begin: -0.3,
+                              duration: 1200.ms,
+                              curve: Curves.fastOutSlowIn,
+                            ),
                       );
                     },
                   ),
@@ -114,7 +123,16 @@ class StoryDetailScreen extends StatelessWidget {
                                     .textTheme
                                     .labelLarge!
                                     .copyWith(fontWeight: FontWeight.bold),
-                              ),
+                              )
+                                  .animate()
+                                  .fade(
+                                    duration: 850.ms,
+                                  )
+                                  .slideX(
+                                    begin: -0.3,
+                                    duration: 1200.ms,
+                                    curve: Curves.fastOutSlowIn,
+                                  ),
                               Text(
                                 DateFormat('yyyy-MM-dd')
                                     .add_jms()
@@ -123,7 +141,16 @@ class StoryDetailScreen extends StatelessWidget {
                                   fontSize: 13,
                                   color: Colors.grey.shade500,
                                 ),
-                              ),
+                              )
+                                  .animate()
+                                  .fade(
+                                    duration: 850.ms,
+                                  )
+                                  .slideX(
+                                    begin: 0.3,
+                                    duration: 1200.ms,
+                                    curve: Curves.fastOutSlowIn,
+                                  ),
                             ],
                           ),
                           const SizedBox(height: 10.0),
@@ -131,7 +158,16 @@ class StoryDetailScreen extends StatelessWidget {
                             value.listStory.description,
                             textAlign: TextAlign.justify,
                             style: Theme.of(context).textTheme.bodyMedium,
-                          ),
+                          )
+                              .animate()
+                              .fade(
+                                duration: 850.ms,
+                              )
+                              .slideY(
+                                begin: 0.3,
+                                duration: 1200.ms,
+                                curve: Curves.fastOutSlowIn,
+                              ),
                         ],
                       ),
                     ),
