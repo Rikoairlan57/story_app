@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router_flow/go_router_flow.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,16 @@ class CreateStoryScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Created Story"),
+          title: const Text("Created Story")
+              .animate()
+              .fade(
+                duration: 850.ms,
+              )
+              .slideX(
+                begin: -0.3,
+                duration: 1200.ms,
+                curve: Curves.fastOutSlowIn,
+              ),
         ),
         body: ChangeNotifierProvider<StoryCreateProvider>(
           create: (_) => StoryCreateProvider(
@@ -50,7 +60,16 @@ class CreateStoryScreen extends StatelessWidget {
                             : Image.asset(
                                 "assets/images/placeholder.png",
                               ),
-                      );
+                      )
+                          .animate()
+                          .fade(
+                            duration: 850.ms,
+                          )
+                          .slideY(
+                            begin: -0.3,
+                            duration: 1200.ms,
+                            curve: Curves.fastOutSlowIn,
+                          );
                     },
                   ),
                   const SizedBox(height: 20),
@@ -74,7 +93,16 @@ class CreateStoryScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          ),
+                          )
+                              .animate()
+                              .fade(
+                                duration: 850.ms,
+                              )
+                              .slideX(
+                                begin: -0.3,
+                                duration: 1200.ms,
+                                curve: Curves.fastOutSlowIn,
+                              ),
                           const SizedBox(width: 20),
                           Expanded(
                             child: ElevatedButton(
@@ -91,7 +119,16 @@ class CreateStoryScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          ),
+                          )
+                              .animate()
+                              .fade(
+                                duration: 850.ms,
+                              )
+                              .slideX(
+                                begin: 0.3,
+                                duration: 1200.ms,
+                                curve: Curves.fastOutSlowIn,
+                              ),
                         ],
                       );
                     },
@@ -105,7 +142,16 @@ class CreateStoryScreen extends StatelessWidget {
                           .textTheme
                           .labelLarge!
                           .copyWith(fontWeight: FontWeight.bold),
-                    ),
+                    )
+                        .animate()
+                        .fade(
+                          duration: 850.ms,
+                        )
+                        .slideY(
+                          begin: -0.3,
+                          duration: 1200.ms,
+                          curve: Curves.fastOutSlowIn,
+                        ),
                   ),
                   const SizedBox(height: 10),
                   Consumer<StoryCreateProvider>(
@@ -120,41 +166,61 @@ class CreateStoryScreen extends StatelessWidget {
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 40.0, horizontal: 20),
                         ),
-                      );
+                      )
+                          .animate()
+                          .fade(
+                            duration: 850.ms,
+                          )
+                          .slideX(
+                            begin: -0.3,
+                            duration: 1200.ms,
+                            curve: Curves.fastOutSlowIn,
+                          );
                     },
                   ),
                   const SizedBox(height: 30),
                   Row(
                     children: [
-                      Expanded(child: Consumer<StoryCreateProvider>(
-                        builder: (ctx, value, child) {
-                          return ElevatedButton(
-                            onPressed: value.isLoading
-                                ? null
-                                : () {
-                                    value.uploadImage(context);
-                                  },
-                            child: Padding(
-                              padding: const EdgeInsets.all(18.0),
-                              child: value.isLoading
-                                  ? const SizedBox(
-                                      height: 20.0,
-                                      width: 20.0,
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
+                      Expanded(
+                        child: Consumer<StoryCreateProvider>(
+                          builder: (ctx, value, child) {
+                            return ElevatedButton(
+                              onPressed: value.isLoading
+                                  ? null
+                                  : () {
+                                      value.uploadImage(context);
+                                    },
+                              child: Padding(
+                                padding: const EdgeInsets.all(18.0),
+                                child: value.isLoading
+                                    ? const SizedBox(
+                                        height: 20.0,
+                                        width: 20.0,
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : const Text(
+                                        "Upload",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                        ),
                                       ),
-                                    )
-                                  : const Text(
-                                      "Upload",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                      ),
-                                    ),
-                            ),
-                          );
-                        },
-                      )),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                          .animate()
+                          .fade(
+                            duration: 850.ms,
+                          )
+                          .slideX(
+                            begin: 0.3,
+                            duration: 1200.ms,
+                            curve: Curves.fastOutSlowIn,
+                          ),
                     ],
                   ),
                 ],

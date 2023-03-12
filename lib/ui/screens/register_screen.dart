@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:story_app/provider/register_provider.dart';
 import 'package:story_app/data/service/api_service.dart';
 import 'package:go_router_flow/go_router_flow.dart';
@@ -53,7 +54,16 @@ class RegisterScreen extends StatelessWidget {
                               ),
                             )
                           ],
-                        ),
+                        )
+                            .animate()
+                            .fade(
+                              duration: 850.ms,
+                            )
+                            .slideY(
+                              begin: -0.3,
+                              duration: 1200.ms,
+                              curve: Curves.fastOutSlowIn,
+                            ),
                         const SizedBox(height: 40),
                         Consumer<RegisterProvider>(
                           builder: (context, value, child) {
@@ -65,7 +75,16 @@ class RegisterScreen extends StatelessWidget {
                                     border: OutlineInputBorder(),
                                     hintText: "Masukkan Nama",
                                   ),
-                                ),
+                                )
+                                    .animate()
+                                    .fade(
+                                      duration: 850.ms,
+                                    )
+                                    .slideX(
+                                      begin: -0.3,
+                                      duration: 1200.ms,
+                                      curve: Curves.fastOutSlowIn,
+                                    ),
                                 const SizedBox(height: 20),
                                 TextField(
                                   controller: value.emailController,
@@ -73,7 +92,16 @@ class RegisterScreen extends StatelessWidget {
                                     border: OutlineInputBorder(),
                                     hintText: "Masukkan Email",
                                   ),
-                                ),
+                                )
+                                    .animate()
+                                    .fade(
+                                      duration: 850.ms,
+                                    )
+                                    .slideX(
+                                      begin: 0.3,
+                                      duration: 1200.ms,
+                                      curve: Curves.fastOutSlowIn,
+                                    ),
                                 const SizedBox(height: 20),
                                 TextField(
                                   controller: value.passwordController,
@@ -93,6 +121,15 @@ class RegisterScreen extends StatelessWidget {
                                     ),
                                   ),
                                 )
+                                    .animate()
+                                    .fade(
+                                      duration: 850.ms,
+                                    )
+                                    .slideX(
+                                      begin: -0.3,
+                                      duration: 1200.ms,
+                                      curve: Curves.fastOutSlowIn,
+                                    ),
                               ],
                             );
                           },
@@ -118,9 +155,18 @@ class RegisterScreen extends StatelessWidget {
                                               color: Colors.white,
                                             ),
                                           )
-                                        : const Text("SIGN IN"),
+                                        : const Text("REGISTER"),
                                   ),
-                                );
+                                )
+                                    .animate()
+                                    .fade(
+                                      duration: 850.ms,
+                                    )
+                                    .slideY(
+                                      begin: 0.3,
+                                      duration: 1200.ms,
+                                      curve: Curves.fastOutSlowIn,
+                                    );
                               },
                             )),
                           ],
@@ -144,7 +190,16 @@ class RegisterScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          ),
+                          )
+                              .animate()
+                              .fade(
+                                duration: 850.ms,
+                              )
+                              .slideY(
+                                begin: -0.3,
+                                duration: 1200.ms,
+                                curve: Curves.fastOutSlowIn,
+                              ),
                         ),
                       ],
                     ),

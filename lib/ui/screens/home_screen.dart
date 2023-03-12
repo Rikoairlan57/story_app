@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:lottie/lottie.dart';
 import 'package:story_app/data/common/enum/result_state.dart';
 import 'package:story_app/data/db/auth_repository.dart';
@@ -25,16 +26,35 @@ class HomeScreen extends StatelessWidget {
       ),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Story"),
+          title: const Text("Story")
+              .animate()
+              .fade(
+                duration: 850.ms,
+              )
+              .slideY(
+                begin: -0.3,
+                duration: 1200.ms,
+                curve: Curves.fastOutSlowIn,
+              ),
           actions: [
             Center(
-                child: Text(
-              "Logout",
-              style: Theme.of(context)
-                  .textTheme
-                  .labelLarge
-                  ?.copyWith(color: Colors.white),
-            )),
+              child: Text(
+                "Logout",
+                style: Theme.of(context)
+                    .textTheme
+                    .labelLarge
+                    ?.copyWith(color: Colors.white),
+              )
+                  .animate()
+                  .fade(
+                    duration: 850.ms,
+                  )
+                  .slideX(
+                    begin: -0.3,
+                    duration: 1200.ms,
+                    curve: Curves.fastOutSlowIn,
+                  ),
+            ),
             Consumer<HomeProvider>(
               builder: (ctx, value, child) {
                 return IconButton(
@@ -42,7 +62,16 @@ class HomeScreen extends StatelessWidget {
                     value.userLogout(context);
                   },
                   icon: const Icon(Icons.logout),
-                );
+                )
+                    .animate()
+                    .fade(
+                      duration: 850.ms,
+                    )
+                    .slideX(
+                      begin: 0.3,
+                      duration: 1200.ms,
+                      curve: Curves.fastOutSlowIn,
+                    );
               },
             )
           ],
@@ -56,8 +85,26 @@ class HomeScreen extends StatelessWidget {
               },
               child: const Icon(
                 Icons.add,
-              ),
-            );
+              )
+                  .animate()
+                  .fade(
+                    duration: 850.ms,
+                  )
+                  .slideX(
+                    begin: -0.3,
+                    duration: 1200.ms,
+                    curve: Curves.fastOutSlowIn,
+                  ),
+            )
+                .animate()
+                .fade(
+                  duration: 850.ms,
+                )
+                .slideX(
+                  begin: 0.3,
+                  duration: 1200.ms,
+                  curve: Curves.fastOutSlowIn,
+                );
           },
         ),
         body: Consumer<HomeProvider>(
@@ -140,7 +187,16 @@ class HomeScreen extends StatelessWidget {
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleLarge,
-                                        ),
+                                        )
+                                            .animate()
+                                            .fade(
+                                              duration: 850.ms,
+                                            )
+                                            .slideY(
+                                              begin: -0.3,
+                                              duration: 1200.ms,
+                                              curve: Curves.fastOutSlowIn,
+                                            ),
                                         const SizedBox(
                                           height: 10,
                                         ),
@@ -152,7 +208,16 @@ class HomeScreen extends StatelessWidget {
                                             fontSize: 13,
                                             color: Colors.grey.shade500,
                                           ),
-                                        ),
+                                        )
+                                            .animate()
+                                            .fade(
+                                              duration: 850.ms,
+                                            )
+                                            .slideX(
+                                              begin: -0.3,
+                                              duration: 1200.ms,
+                                              curve: Curves.fastOutSlowIn,
+                                            ),
                                         const SizedBox(
                                           height: 10,
                                         ),
@@ -163,14 +228,32 @@ class HomeScreen extends StatelessWidget {
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium,
-                                        ),
+                                        )
+                                            .animate()
+                                            .fade(
+                                              duration: 850.ms,
+                                            )
+                                            .slideY(
+                                              begin: 0.3,
+                                              duration: 1200.ms,
+                                              curve: Curves.fastOutSlowIn,
+                                            ),
                                       ],
                                     ),
                                   )
                                 ],
                               ),
                             ),
-                          ),
+                          )
+                              .animate()
+                              .fade(
+                                duration: 850.ms,
+                              )
+                              .slideY(
+                                begin: 0.3,
+                                duration: 1200.ms,
+                                curve: Curves.fastOutSlowIn,
+                              ),
                         );
                       },
                     ),
