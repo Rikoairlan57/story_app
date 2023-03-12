@@ -1,23 +1,23 @@
-class StoryModel {
-  StoryModel({
+class ListStory {
+  ListStory({
     required this.id,
     required this.name,
     required this.description,
     required this.photoUrl,
     required this.createdAt,
-    this.lat,
-    this.lon,
+    required this.lat,
+    required this.lon,
   });
 
-  String id;
-  String name;
-  String description;
-  String photoUrl;
-  DateTime createdAt;
-  double? lat;
-  double? lon;
+  final String id;
+  final String name;
+  final String description;
+  final String photoUrl;
+  final DateTime createdAt;
+  final double? lat;
+  final double? lon;
 
-  factory StoryModel.fromJson(Map<String, dynamic> json) => StoryModel(
+  factory ListStory.fromJson(Map<String, dynamic> json) => ListStory(
         id: json["id"],
         name: json["name"],
         description: json["description"],
