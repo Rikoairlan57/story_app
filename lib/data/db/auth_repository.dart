@@ -1,51 +1,40 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
-import '../model/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:story_app/data/model/response/login_result_model.dart';
 
 class AuthRepository {
-  final String stateKey = "state";
-  final String userKey = "user";
+  final Future<SharedPreferences> _prefs;
 
-  Future<bool> isLoggedIn() async {
-    final preferences = await SharedPreferences.getInstance();
-    await Future.delayed(const Duration(seconds: 2));
-    return preferences.getBool(stateKey) ?? false;
+  AuthRepository({
+    required Future<SharedPreferences> prefs,
+  }) : _prefs = prefs;
+
+  static const _authKey = "AUTH_KEY";
+
+  Future<bool> saveAuthData(LoginResult loginData) async {
+    final SharedPreferences prefs = await _prefs;
+    final res = await prefs.setString(_authKey, json.encode(loginData));
+
+    return res;
   }
 
-  Future<bool> login() async {
-    final preferences = await SharedPreferences.getInstance();
-    await Future.delayed(const Duration(seconds: 2));
-    return preferences.setBool(stateKey, true);
-  }
+  Future<LoginResult?> getAuthData() async {
+    final SharedPreferences prefs = await _prefs;
+    final res = prefs.getString(_authKey);
 
-  Future<bool> logout() async {
-    final preferences = await SharedPreferences.getInstance();
-    await Future.delayed(const Duration(seconds: 2));
-    return preferences.setBool(stateKey, false);
-  }
-
-  Future<bool> saveUser(UserModel user) async {
-    final preferences = await SharedPreferences.getInstance();
-    await Future.delayed(const Duration(seconds: 2));
-    return preferences.setString(userKey, user.toJson());
-  }
-
-  Future<bool> deleteUser() async {
-    final preferences = await SharedPreferences.getInstance();
-    await Future.delayed(const Duration(seconds: 2));
-    return preferences.setString(userKey, "");
-  }
-
-  Future<UserModel?> getUser() async {
-    final preferences = await SharedPreferences.getInstance();
-    await Future.delayed(const Duration(seconds: 2));
-    final json = preferences.getString(userKey) ?? "";
-    UserModel? user;
-    try {
-      user = UserModel.fromJson(json);
-    } catch (e) {
-      user = null;
+    if (res != null) {
+      final loginData = LoginResult.fromJson(json.decode(res));
+      return loginData;
     }
-    return user;
+
+    return null;
+  }
+
+  Future<bool> deleteAuthData() async {
+    final SharedPreferences prefs = await _prefs;
+    final res = prefs.remove(_authKey);
+
+    return res;
   }
 }

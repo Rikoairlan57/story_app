@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 class ErrorView extends StatelessWidget {
-  final String message;
+  final Function? _refresh;
 
-  const ErrorView({Key? key, required this.message}) : super(key: key);
+  const ErrorView({super.key, Function? refresh}) : _refresh = refresh;
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +13,15 @@ class ErrorView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Lottie.asset('assets/animations/95614-error-occurred.json',
+          Lottie.asset('assets/lottie/12955-no-internet-connection.json',
               height: MediaQuery.of(context).size.height / 3),
-          Text(message,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleMedium),
+          const SizedBox(height: 10),
+          const Text("Oops Something Wrong!"),
+          if (_refresh != null) const SizedBox(height: 5),
+          TextButton(
+            onPressed: _refresh!(),
+            child: const Text("Retry"),
+          )
         ],
       ),
     );
